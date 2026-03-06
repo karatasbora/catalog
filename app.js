@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (fwId) {
         const targetSlide = archiveData.slides.find(s => s.id === fwId);
         if (targetSlide) {
-            window.location.href = targetSlide.figmaUrl;
+            const protoUrl = targetSlide.figmaUrl.replace(/\/(design|file)\//, '/proto/');
+            window.location.href = protoUrl;
             return; // Stop execution of the rest of the page
         }
     }
