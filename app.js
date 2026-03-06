@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loadBtn.textContent = archiveData.ui.loadBtn[state.lang];
             
             loadBtn.addEventListener('click', () => {
-                figmaDiv.innerHTML = `<iframe src="${slide.figmaUrl}" allowfullscreen></iframe>`;
+                figmaDiv.innerHTML = `<iframe src="${slide.figmaUrl}" allowfullscreen allow="fullscreen"></iframe>`;
             });
             
             figmaDiv.appendChild(loadBtn);
