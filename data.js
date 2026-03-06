@@ -15,8 +15,8 @@ const archiveData = {
     slides: [
         {
             id: "slide-elt-101",
-            title: { tr: "İngilizce Öğretiminde YZ Kullanımı", en: "AI in ELT Practices" },
-            topic: { tr: "Öğretim Teknolojileri", en: "EdTech" },
+            title: { tr: "Hayvanlar", en: "Animals" },
+            topic: { tr: "Comparatives", en: "Karşılaştırma Sıfatları" },
             description: { 
                 tr: "Eğitimciler için üretken yapay zeka araçlarının sınıfa entegrasyonunu anlatan interaktif sunum.", 
                 en: "An interactive presentation on integrating generative AI tools into the classroom for educators." 
