@@ -51,9 +51,36 @@ document.addEventListener('DOMContentLoaded', () => {
             const figmaDiv = document.createElement('div');
             figmaDiv.className = 'figma-container';
             
+            const thumbnailImg = document.createElement('img');
+            thumbnailImg.className = 'figma-thumbnail';
+            thumbnailImg.style.position = 'absolute';
+            thumbnailImg.style.top = '0';
+            thumbnailImg.style.left = '0';
+            thumbnailImg.style.width = '100%';
+            thumbnailImg.style.height = '100%';
+            thumbnailImg.style.objectFit = 'cover';
+            thumbnailImg.style.opacity = '0';
+            thumbnailImg.style.transition = 'opacity 0.5s ease';
+            thumbnailImg.style.zIndex = '1';
+
+            // Scrape thumbnail via oEmbed API
+            fetch(`https://www.figma.com/api/oembed?url=${encodeURIComponent(slide.figmaUrl)}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.thumbnail_url) {
+                        thumbnailImg.src = data.thumbnail_url;
+                        thumbnailImg.onload = () => {
+                            thumbnailImg.style.opacity = '1';
+                        };
+                    }
+                })
+                .catch(err => console.error('Failed to load Figma thumbnail:', err));
+            
             const loadBtn = document.createElement('button');
             loadBtn.className = 'load-btn';
             loadBtn.textContent = archiveData.ui.loadBtn[state.lang];
+            loadBtn.style.position = 'relative';
+            loadBtn.style.zIndex = '2';
             
             // When clicked, open the modal and inject the iframe
             loadBtn.addEventListener('click', () => {
@@ -67,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.style.overflow = 'hidden'; // Prevent scrolling the site behind the modal
             });
             
+            figmaDiv.appendChild(thumbnailImg);
             figmaDiv.appendChild(loadBtn);
 
             // Text Content
