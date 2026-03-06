@@ -18,10 +18,10 @@ const archiveData = {
             title: { tr: "Hayvanlar", en: "Animals" },
             topic: { tr: "Karşılaştırma Sıfatları", en: "Comparatives" },
             description: { 
-                tr: "Eğitimciler için üretken yapay zeka araçlarının sınıfa entegrasyonunu anlatan interaktif sunum.", 
-                en: "An interactive presentation on integrating generative AI tools into the classroom for educators." 
+                tr: "Bu ders materyali, PPP (Presentation, Practice, Production) metodolojisini modern kullanıcı deneyimi tasarımıyla birleştiren bütüncül bir dijital öğrenme modülüdür.", 
+                en: "This course material is a holistic digital learning module that combines the PPP (Presentation, Practice, Production) methodology with modern user experience design." 
             },
-            figmaUrl: "https://embed.figma.com/proto/zMks6XTgyB6cYu0CxwFvcf/Animals_Grammar?node-id=0-1&embed-host=share",
+            figmaUrl: "https://www.figma.com/design/zMks6XTgyB6cYu0CxwFvcf/Animals-%7C-Grammar---Comparatives?node-id=0-1&p=f&t=zsVbbOPpxkJW6kvi-0",
             tags: ["EdTech", "Generative AI", "Instructional Design"]
         },
         // Add more slide objects here
