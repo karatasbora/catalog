@@ -30,6 +30,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderGrid() {
         grid.innerHTML = '';
+
+        // Inside your renderGrid() loop:
+const loadBtn = document.createElement('button');
+loadBtn.className = 'load-btn';
+loadBtn.textContent = archiveData.ui.loadBtn[state.lang];
+
+// When clicked, open the modal and inject the iframe
+loadBtn.addEventListener('click', () => {
+    const modal = document.getElementById('figma-modal');
+    const container = document.getElementById('modal-iframe-container');
+    
+    container.innerHTML = `<iframe src="${slide.figmaUrl}" allowfullscreen allow="fullscreen"></iframe>`;
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; // Prevent scrolling the site behind the modal
+});
+
+// Add this outside the loop (at the bottom of app.js) to handle closing:
+document.getElementById('close-modal').addEventListener('click', () => {
+    const modal = document.getElementById('figma-modal');
+    const container = document.getElementById('modal-iframe-container');
+    
+    modal.classList.add('hidden');
+    container.innerHTML = ''; // Clear iframe to stop playback/save memory
+    document.body.style.overflow = ''; // Restore scrolling
+});
         
         archiveData.slides.forEach(slide => {
             const card = document.createElement('div');
