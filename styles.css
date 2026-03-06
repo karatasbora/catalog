@@ -137,6 +137,42 @@ a.contact-link:hover { color: var(--accent-primary); border-bottom-color: var(--
 .tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .tag { font-family: 'Outfit', sans-serif; font-size: 0.75rem; padding: 4px 10px; border-radius: 4px; border: 1px solid var(--border-color); color: var(--secondary-text); background-color: var(--bg-color); }
 
+/* Cinematic Fullscreen Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-color); /* Matches Light/Dark mode */
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-header {
+    padding: 15px 30px;
+    display: flex;
+    justify-content: flex-end;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-body {
+    flex-grow: 1;
+    width: 100%;
+}
+
+.modal-body iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
 @media (max-width: 768px) {
     header { flex-direction: column; gap: 20px; text-align: center; }
     .controls { justify-content: center; width: 100%; }
