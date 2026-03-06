@@ -21,7 +21,7 @@ const archiveData = {
                 tr: "Eğitimciler için üretken yapay zeka araçlarının sınıfa entegrasyonunu anlatan interaktif sunum.", 
                 en: "An interactive presentation on integrating generative AI tools into the classroom for educators." 
             },
-            figmaUrl: "https://embed.figma.com/design/zMks6XTgyB6cYu0CxwFvcf/Animals_Grammar?node-id=0-1&embed-host=share",
+            figmaUrl: "https://embed.figma.com/proto/zMks6XTgyB6cYu0CxwFvcf/Animals_Grammar?node-id=0-1&embed-host=share",
             tags: ["EdTech", "Generative AI", "Instructional Design"]
         },
         // Add more slide objects here
