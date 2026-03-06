@@ -22,7 +22,7 @@ const archiveData = {
                 en: "This course material is a holistic digital learning module that combines the PPP (Presentation, Practice, Production) methodology with modern user experience design." 
             },
             figmaUrl: "https://www.figma.com/design/zMks6XTgyB6cYu0CxwFvcf/Animals-%7C-Grammar---Comparatives?node-id=0-1&p=f&t=zsVbbOPpxkJW6kvi-0",
-            tags: ["EdTech", "Generative AI", "Instructional Design"]
+            tags: ["5th Grade", "A1"]
         },
         // Add more slide objects here
     ]
