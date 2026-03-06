@@ -1,4 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Check for ?fw= direct linking to Figma
+    const urlParams = new URLSearchParams(window.location.search);
+    const fwId = urlParams.get('fw');
+    if (fwId) {
+        const targetSlide = archiveData.slides.find(s => s.id === fwId);
+        if (targetSlide) {
+            window.location.href = targetSlide.figmaUrl;
+            return; // Stop execution of the rest of the page
+        }
+    }
+
     const state = {
         lang: localStorage.getItem('preferredLang') || (navigator.language.startsWith('tr') ? 'tr' : 'en')
     };
@@ -31,21 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderGrid() {
         grid.innerHTML = '';
 
-        // Inside your renderGrid() loop:
-const loadBtn = document.createElement('button');
-loadBtn.className = 'load-btn';
-loadBtn.textContent = archiveData.ui.loadBtn[state.lang];
-
-// When clicked, open the modal and inject the iframe
-loadBtn.addEventListener('click', () => {
-    const modal = document.getElementById('figma-modal');
-    const container = document.getElementById('modal-iframe-container');
-    
-    container.innerHTML = `<iframe src="${slide.figmaUrl}" allowfullscreen allow="fullscreen"></iframe>`;
-    modal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden'; // Prevent scrolling the site behind the modal
-});
-        
         archiveData.slides.forEach(slide => {
             const card = document.createElement('div');
             card.className = 'slide-card';
@@ -58,8 +54,14 @@ loadBtn.addEventListener('click', () => {
             loadBtn.className = 'load-btn';
             loadBtn.textContent = archiveData.ui.loadBtn[state.lang];
             
+            // When clicked, open the modal and inject the iframe
             loadBtn.addEventListener('click', () => {
-                figmaDiv.innerHTML = `<iframe src="${slide.figmaUrl}" allowfullscreen allow="fullscreen"></iframe>`;
+                const modal = document.getElementById('figma-modal');
+                const container = document.getElementById('modal-iframe-container');
+                
+                container.innerHTML = `<iframe src="${slide.figmaUrl}" allowfullscreen allow="fullscreen"></iframe>`;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling the site behind the modal
             });
             
             figmaDiv.appendChild(loadBtn);
