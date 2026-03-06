@@ -59,7 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const modal = document.getElementById('figma-modal');
                 const container = document.getElementById('modal-iframe-container');
                 
-                container.innerHTML = `<iframe src="${slide.figmaUrl}" allowfullscreen allow="fullscreen"></iframe>`;
+                const embedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(slide.figmaUrl)}`;
+                container.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="fullscreen"></iframe>`;
                 modal.classList.remove('hidden');
                 document.body.style.overflow = 'hidden'; // Prevent scrolling the site behind the modal
             });
