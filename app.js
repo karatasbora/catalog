@@ -43,13 +43,54 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderGrid() {
         grid.innerHTML = '';
 
-        archiveData.slides.forEach(slide => {
-            const card = document.createElement('div');
-            card.className = 'slide-card';
+        archiveData.slides.forEach((slide) => {
+            // Main Container exactly mirrors .job-block logic
+            const jobBlock = document.createElement('div');
+            jobBlock.className = 'job-block slide-card';
             
-            // Lazy Load Container
+            // Layout wrapper
+            const jobLayoutDiv = document.createElement('div');
+            jobLayoutDiv.className = 'job-layout';
+
+            const jobFigmaLeftDiv = document.createElement('div');
+            jobFigmaLeftDiv.className = 'job-figma-left';
+
+            const jobDetailsRightDiv = document.createElement('div');
+            jobDetailsRightDiv.className = 'job-details-right';
+
+            // Header Group (.job-header)
+            const jobHeaderDiv = document.createElement('div');
+            jobHeaderDiv.className = 'job-header';
+            
+            const titleSpan = document.createElement('span');
+            titleSpan.className = 'job-title';
+            titleSpan.textContent = slide.title[state.lang];
+            
+            jobHeaderDiv.appendChild(titleSpan);
+
+            // Subheader Group (.job-subheader)
+            const jobSubheaderDiv = document.createElement('div');
+            jobSubheaderDiv.className = 'job-subheader';
+
+            const topicSpan = document.createElement('span');
+            topicSpan.className = 'company';
+            topicSpan.textContent = slide.topic[state.lang]; // Removed "topic:" label
+            
+            const targetAudienceLink = document.createElement('span');
+            targetAudienceLink.className = 'location';
+            
+            // actionAnchor removed as requested; thumbnail is now the primary trigger.
+            jobSubheaderDiv.appendChild(topicSpan);
+            jobSubheaderDiv.appendChild(targetAudienceLink);
+
+            // Job Content (.job-content)
+            const jobContentDiv = document.createElement('div');
+            jobContentDiv.className = 'job-content';
+
+            // Lazy Load Container for Figma Thumbnail -> Mooved to jobFigmaLeftDiv
             const figmaDiv = document.createElement('div');
             figmaDiv.className = 'figma-container';
+            figmaDiv.style.cursor = 'pointer';
             
             const thumbnailImg = document.createElement('img');
             thumbnailImg.className = 'figma-thumbnail';
@@ -76,69 +117,110 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 .catch(err => console.error('Failed to load Figma thumbnail:', err));
             
-            const loadBtn = document.createElement('button');
-            loadBtn.className = 'load-btn';
-            loadBtn.textContent = archiveData.ui.loadBtn[state.lang];
-            loadBtn.style.position = 'relative';
-            loadBtn.style.zIndex = '2';
-            
-            // When clicked, open the modal and inject the iframe
-            loadBtn.addEventListener('click', () => {
-                const modal = document.getElementById('figma-modal');
-                const container = document.getElementById('modal-iframe-container');
-                
-                const protoUrl = slide.figmaUrl.replace(/\/(design|file)\//, '/proto/');
-                const embedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(protoUrl)}`;
-                container.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="fullscreen"></iframe>`;
-                modal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden'; // Prevent scrolling the site behind the modal
+            // Allow clicking thumbnail to open
+            figmaDiv.addEventListener('click', () => {
+                openModalForFigma(slide);
             });
+            
+            // Add Play Icon Overlay
+            const playIconOverlay = document.createElement('div');
+            playIconOverlay.className = 'play-icon-overlay';
+            playIconOverlay.innerHTML = '<svg width="40" height="40" viewBox="0 0 24 24" fill="var(--slate-900)" stroke="none"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
             
             figmaDiv.appendChild(thumbnailImg);
-            figmaDiv.appendChild(loadBtn);
-
-            // Text Content
-            const title = document.createElement('h3');
-            title.className = 'card-title';
-            title.textContent = slide.title[state.lang];
-
-            const topic = document.createElement('div');
-            topic.className = 'card-topic';
-            topic.textContent = `${archiveData.ui.topicLabel[state.lang]} ${slide.topic[state.lang]}`;
-
-            const desc = document.createElement('p');
-            desc.className = 'card-desc';
-            desc.textContent = slide.description[state.lang];
-
-            // Tags
-            const tagsDiv = document.createElement('div');
-            tagsDiv.className = 'tags';
-            slide.tags.forEach(t => {
-                const span = document.createElement('span');
-                span.className = 'tag';
-                span.textContent = t;
-                tagsDiv.appendChild(span);
-            });
-
-            // Assemble
-            card.appendChild(figmaDiv);
-            card.appendChild(title);
-            card.appendChild(topic);
-            card.appendChild(desc);
-            card.appendChild(tagsDiv);
+            figmaDiv.appendChild(playIconOverlay);
+            jobFigmaLeftDiv.appendChild(figmaDiv);
             
-            grid.appendChild(card);
+            // Toggle Button
+            const toggleBtn = document.createElement('button');
+            toggleBtn.className = 'desc-toggle';
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            toggleBtn.setAttribute('aria-label', 'Show Details');
+            toggleBtn.innerHTML = '<svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+            
+            toggleBtn.addEventListener('click', (e) => {
+                const contentDiv = e.currentTarget.parentElement;
+                const descriptionDiv = contentDiv.querySelector('.job-description');
+                if (descriptionDiv) {
+                    const isExpanded = descriptionDiv.classList.toggle('expanded');
+                    e.currentTarget.setAttribute('aria-expanded', isExpanded);
+                }
+            });
+            
+            jobContentDiv.appendChild(toggleBtn);
+
+            // Description
+            const jobDescDiv = document.createElement('div');
+            jobDescDiv.className = 'job-description'; // Removed "expanded" to default to collapsed
+            
+            const descInnerDiv = document.createElement('div');
+            descInnerDiv.className = 'desc-inner';
+            
+            const p = document.createElement('p');
+            p.textContent = slide.description[state.lang];
+            
+            descInnerDiv.appendChild(p);
+            jobDescDiv.appendChild(descInnerDiv);
+            jobContentDiv.appendChild(jobDescDiv);
+
+            // Tags (.tags-wrapper branding-tags .skill-tag)
+            const tagsWrapperDiv = document.createElement('div');
+            tagsWrapperDiv.className = 'tags-wrapper branding-tags';
+            slide.tags.forEach(t => {
+                const button = document.createElement('button');
+                button.className = 'skill-tag animate';
+                button.textContent = t;
+                button.style.animationDelay = `${(Math.random() * 0.1) + 0.1}s`;
+                tagsWrapperDiv.appendChild(button);
+            });
+            jobContentDiv.appendChild(tagsWrapperDiv);
+
+            // Assemble Job Block
+            jobDetailsRightDiv.appendChild(jobHeaderDiv);
+            jobDetailsRightDiv.appendChild(jobSubheaderDiv);
+            jobDetailsRightDiv.appendChild(jobContentDiv);
+            
+            jobLayoutDiv.appendChild(jobFigmaLeftDiv);
+            jobLayoutDiv.appendChild(jobDetailsRightDiv);
+            
+            jobBlock.appendChild(jobLayoutDiv);
+            
+            grid.appendChild(jobBlock);
         });
+        
+        // Remove 'js-loading' state
+        setTimeout(() => {
+            document.documentElement.classList.remove('js-loading');
+        }, 100);
+    }
+    
+    function openModalForFigma(slide) {
+        const modal = document.getElementById('figma-modal');
+        const container = document.getElementById('modal-iframe-container');
+        
+        const protoUrl = slide.figmaUrl.replace(/\/(design|file)\//, '/proto/');
+        const embedUrl = `https://www.figma.com/embed?embed_host=share&url=${encodeURIComponent(protoUrl)}`;
+        container.innerHTML = `<iframe src="${embedUrl}" allowfullscreen allow="fullscreen"></iframe>`;
+        modal.classList.remove('hidden');
+        // Force a browser reflow so the transition works
+        void modal.offsetWidth;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling the site behind the modal
     }
 
-document.getElementById('close-modal').addEventListener('click', () => {
-    const modal = document.getElementById('figma-modal');
-    const container = document.getElementById('modal-iframe-container');
-    
-    modal.classList.add('hidden');
-    container.innerHTML = ''; // Clear iframe to stop playback/save memory
-    document.body.style.overflow = ''; // Restore scrolling
-});
+    document.getElementById('close-modal').addEventListener('click', () => {
+        const modal = document.getElementById('figma-modal');
+        const container = document.getElementById('modal-iframe-container');
+        
+        modal.classList.remove('active');
+        
+        // Wait for the CSS transition to finish before hiding display:none and clearing iframe
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            container.innerHTML = ''; // Clear iframe to stop playback/save memory
+            document.body.style.overflow = ''; // Restore scrolling
+        }, 400); // 400ms matches the CSS transition duration
+    });
 
     // Event Listeners
     btnTr.addEventListener('click', () => {
