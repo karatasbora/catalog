@@ -427,7 +427,7 @@ p {
 .job-header {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
+    align-items: center;
     margin-bottom: 0.5rem;
 }
 
@@ -527,6 +527,7 @@ p {
 
 .desc-inner {
     overflow: hidden;
+    padding-bottom: 8px; /* Added spacing for accordion tags */
 }
 
 /* --- TAGS --- */

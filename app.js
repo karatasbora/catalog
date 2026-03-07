@@ -156,9 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
             p.textContent = slide.description[state.lang];
             
             descInnerDiv.appendChild(p);
-            jobDescDiv.appendChild(descInnerDiv);
-            jobContentDiv.appendChild(jobDescDiv);
-
             // Tags (.tags-wrapper branding-tags .skill-tag)
             const tagsWrapperDiv = document.createElement('div');
             tagsWrapperDiv.className = 'tags-wrapper branding-tags';
@@ -169,7 +166,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.style.animationDelay = `${(Math.random() * 0.1) + 0.1}s`;
                 tagsWrapperDiv.appendChild(button);
             });
-            jobContentDiv.appendChild(tagsWrapperDiv);
+            descInnerDiv.appendChild(tagsWrapperDiv);
+            
+            jobDescDiv.appendChild(descInnerDiv);
+            jobContentDiv.appendChild(jobDescDiv);
 
             // Assemble Job Block
             jobDetailsRightDiv.appendChild(jobHeaderDiv);
