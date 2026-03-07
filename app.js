@@ -127,27 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
             figmaDiv.appendChild(playIconOverlay);
             jobFigmaLeftDiv.appendChild(figmaDiv);
             
-            // Toggle Button
-            const toggleBtn = document.createElement('button');
-            toggleBtn.className = 'desc-toggle';
-            toggleBtn.setAttribute('aria-expanded', 'false');
-            toggleBtn.setAttribute('aria-label', 'Show Details');
-            toggleBtn.innerHTML = '<svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
-            
-            toggleBtn.addEventListener('click', (e) => {
-                const contentDiv = e.currentTarget.parentElement;
-                const descriptionDiv = contentDiv.querySelector('.job-description');
-                if (descriptionDiv) {
-                    const isExpanded = descriptionDiv.classList.toggle('expanded');
-                    e.currentTarget.setAttribute('aria-expanded', isExpanded);
-                }
-            });
-            
-            jobContentDiv.appendChild(toggleBtn);
-
-            // Description
+            // Description Wrapper
             const jobDescDiv = document.createElement('div');
-            jobDescDiv.className = 'job-description'; // Removed "expanded" to default to collapsed
+            jobDescDiv.className = 'job-description'; 
             
             const descInnerDiv = document.createElement('div');
             descInnerDiv.className = 'desc-inner';
@@ -156,7 +138,30 @@ document.addEventListener('DOMContentLoaded', () => {
             p.textContent = slide.description[state.lang];
             
             descInnerDiv.appendChild(p);
-            // Tags (.tags-wrapper branding-tags .skill-tag)
+
+            // Toggle & Tags Row Wrapper
+            const toggleRow = document.createElement('div');
+            toggleRow.className = 'toggle-and-tags-row';
+
+            // Toggle Button
+            const toggleBtn = document.createElement('button');
+            toggleBtn.className = 'desc-toggle';
+            toggleBtn.setAttribute('aria-expanded', 'false');
+            toggleBtn.setAttribute('aria-label', 'Show Details');
+            toggleBtn.innerHTML = '<svg class="chevron-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+            
+            toggleBtn.addEventListener('click', (e) => {
+                // Find parent container then the description element
+                const descContainer = toggleRow.nextElementSibling;
+                if (descContainer && descContainer.classList.contains('job-description')) {
+                    const isExpanded = descContainer.classList.toggle('expanded');
+                    e.currentTarget.setAttribute('aria-expanded', isExpanded);
+                }
+            });
+            
+            toggleRow.appendChild(toggleBtn);
+
+            // Tags
             const tagsWrapperDiv = document.createElement('div');
             tagsWrapperDiv.className = 'tags-wrapper branding-tags';
             slide.tags.forEach(t => {
@@ -166,8 +171,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.style.animationDelay = `${(Math.random() * 0.1) + 0.1}s`;
                 tagsWrapperDiv.appendChild(button);
             });
-            descInnerDiv.appendChild(tagsWrapperDiv);
+            toggleRow.appendChild(tagsWrapperDiv);
             
+            // Build the Job Content piece
+            jobContentDiv.appendChild(toggleRow);
             jobDescDiv.appendChild(descInnerDiv);
             jobContentDiv.appendChild(jobDescDiv);
 

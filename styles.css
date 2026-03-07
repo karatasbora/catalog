@@ -218,7 +218,7 @@ body {
 }
 
 #main-content {
-    max-width: 900px;
+    max-width: 1200px;
     margin: 40px auto;
     padding: 0 60px 60px 60px;
 }
@@ -476,6 +476,14 @@ p {
     margin-left: 4px;
 }
 
+.toggle-and-tags-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 8px;
+    min-height: 32px;
+}
+
 .desc-toggle {
     position: absolute;
     left: -13px;
@@ -534,8 +542,8 @@ p {
 .tags-wrapper {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 8px;
-    margin-top: 15px;
 }
 
 .skill-tag {
