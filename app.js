@@ -64,6 +64,16 @@ document.addEventListener('DOMContentLoaded', () => {
             
             jobHeaderDiv.appendChild(titleSpan);
 
+            if (slide.pdfUrl) {
+                const pdfLink = document.createElement('a');
+                pdfLink.href = slide.pdfUrl;
+                pdfLink.className = 'pdf-download-btn';
+                pdfLink.title = state.lang === 'tr' ? 'Çalışma Kağıdını İndir' : 'Download Worksheet';
+                pdfLink.target = '_blank';
+                pdfLink.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>';
+                jobHeaderDiv.appendChild(pdfLink);
+            }
+
             // Subheader Group (.job-subheader)
             const jobSubheaderDiv = document.createElement('div');
             jobSubheaderDiv.className = 'job-subheader';

@@ -14,14 +14,15 @@ const archiveData = {
     slides: [
         {
             id: "slide-elt-101",
-            title: { tr: "Hayvanlar", en: "Animals" },
-            topic: { tr: "Karşılaştırma Sıfatları", en: "Comparatives" },
-            description: { 
-                tr: "Bu ders materyali, PPP (Presentation, Practice, Production) metodolojisini modern kullanıcı deneyimi tasarımıyla birleştiren bütüncül bir dijital öğrenme modülüdür.", 
-                en: "This course material is a holistic digital learning module that combines the PPP (Presentation, Practice, Production) methodology with modern user experience design." 
+            title: { tr: "Hayvanat Bahçesinde", en: "At the Zoo" },
+            topic: { tr: "Karşılaştırma Sıfatları", en: "Comparative Adjectives" },
+            description: {
+                tr: "Bu ders materyali, PPP (Presentation, Practice, Production) metodolojisini modern kullanıcı deneyimi tasarımıyla birleştiren bütüncül bir dijital öğrenme modülüdür.",
+                en: "This course material is a holistic digital learning module that combines the PPP (Presentation, Practice, Production) methodology with modern user experience design."
             },
             figmaUrl: "https://www.figma.com/design/zMks6XTgyB6cYu0CxwFvcf/Animals-%7C-Grammar---Comparatives?node-id=0-1&p=f&t=zsVbbOPpxkJW6kvi-0",
-            tags: ["5th Grade", "A1"]
+            pdfUrl: "ws/ws-elt-101.pdf",
+            tags: ["Grammar", "5th Grade", "A1"]
         },
         // Add more slide objects here
     ]

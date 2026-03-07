@@ -391,6 +391,26 @@ p {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+.pdf-download-btn {
+    color: var(--meta-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--tag-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 6px;
+    transition: all 0.3s ease;
+}
+
+.pdf-download-btn:hover {
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
+    background-color: var(--hover-bg);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
 #slide-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
