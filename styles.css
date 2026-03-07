@@ -476,17 +476,10 @@ p {
     margin-left: 4px;
 }
 
-.toggle-and-tags-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 8px;
-    min-height: 32px;
-}
-
 .desc-toggle {
     position: absolute;
     left: -13px;
+    top: -2px;
     top: -2px;
     width: 24px;
     height: 24px;
@@ -535,7 +528,6 @@ p {
 
 .desc-inner {
     overflow: hidden;
-    padding-bottom: 8px; /* Added spacing for accordion tags */
 }
 
 /* --- TAGS --- */
@@ -544,6 +536,7 @@ p {
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
+    margin-top: 0;
 }
 
 .skill-tag {
