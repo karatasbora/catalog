@@ -2,11 +2,10 @@
 const archiveData = {
     meta: {
         name: "Bora Karataş",
-        title: { tr: "Eğitim Materyalleri Arşivi", en: "Educational Materials Archive" },
+        title: { tr: "BK Katalog", en: "BK Catalog" },
         subtitle: { tr: "Etkileşimli Figma Sunumları", en: "Interactive Figma Slides" },
         email: "borakaratas@anadolu.edu.tr",
-        mainSite: "https://karatasbora.github.io/me",
-        backBtn: { tr: "← Özgeçmişe Dön", en: "← Back to Resume" }
+        mainSite: "https://karatasbora.github.io/me"
     },
     ui: {
         loadBtn: { tr: "Etkileşimli Sunumu Yükle", en: "Load Interactive Slides" },

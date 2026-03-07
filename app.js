@@ -23,14 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // UI Elements for Translation
     const uiTitle = document.getElementById('ui-title');
-    const uiSubtitle = document.getElementById('ui-subtitle');
-    const uiBack = document.getElementById('ui-back');
 
     function updateUI() {
         // Update Header
         uiTitle.textContent = archiveData.meta.title[state.lang];
-        uiSubtitle.textContent = archiveData.meta.subtitle[state.lang];
-        uiBack.textContent = archiveData.meta.backBtn[state.lang];
         
         // Update Language Buttons
         btnTr.classList.toggle('active', state.lang === 'tr');

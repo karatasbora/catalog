@@ -203,9 +203,8 @@ body {
     background-color: var(--bg-color);
     color: var(--primary-text);
     line-height: 1.6;
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 60px;
+    margin: 0;
+    padding: 0;
     min-height: 100vh;
     transition: background-color 0.3s ease, color 0.3s ease;
 
@@ -216,6 +215,12 @@ body {
         radial-gradient(rgba(148, 163, 184, 0.4) 1px, transparent 1px);
     background-size: 100% 100%, 100% 100%, 24px 24px;
     background-attachment: fixed;
+}
+
+#main-content {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 60px 60px 60px;
 }
 
 [data-theme="dark"] body {
@@ -276,63 +281,57 @@ p {
 }
 
 /* --- HEADER & PROFILE --- */
-header {
+.toolbar-header {
     opacity: 0;
     animation: simpleFade 0.8s ease-out forwards;
 
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 30px;
-    margin-bottom: 2rem;
-    padding-bottom: 25px;
-    border-bottom: 2px solid var(--border-color);
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 100;
     background-color: var(--glass-bg);
     backdrop-filter: blur(var(--backdrop-blur));
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius);
-    padding: 30px;
+    border-bottom: 1px solid var(--glass-border);
+    padding: 16px max(60px, calc(50vw - 390px)); /* Align with 900px max-width content containing 60px padding */
     box-shadow: var(--card-shadow);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.profile-container {
-    position: relative;
-    height: 120px;
-    width: 120px;
-    flex-shrink: 0;
+.toolbar-left, .toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
-.profile-photo {
-    width: 100%;
-    height: 100%;
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.toolbar-left a {
+    display: flex;
+    align-items: center;
 }
 
-.profile-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 20%;
+.toolbar-avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
 }
 
-.header-text {
-    flex-grow: 1;
+.toolbar-avatar:hover {
+    transform: scale(1.05);
 }
 
-.headline {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.1rem;
-    color: var(--accent-primary);
-    font-weight: 500;
-    margin-bottom: 16px;
+.toolbar-title {
+    font-size: 1.5rem;
+    margin: 0;
+    letter-spacing: -0.02em;
+    color: var(--heading-color);
 }
 
-.contact-info {
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.9rem;
-    color: var(--secondary-text);
+.toolbar-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .contact-link {
@@ -342,49 +341,6 @@ header {
 .contact-link:hover {
     color: var(--accent-primary);
     border-bottom-color: var(--accent-primary);
-}
-
-.contact-link.copied::after {
-    content: attr(data-copy-text);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-8px);
-    background-color: var(--accent-primary);
-    color: var(--bg-color);
-    padding: 4px 10px;
-    border-radius: var(--radius-sm);
-    font-size: 0.75rem;
-    font-weight: 600;
-    pointer-events: none;
-    opacity: 0;
-    animation: simpleFade 0.2s forwards;
-    white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 10;
-}
-
-.contact-link.copied::before {
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-4px);
-    border-width: 6px;
-    border-style: solid;
-    border-color: var(--accent-primary) transparent transparent transparent;
-    opacity: 0;
-    animation: simpleFade 0.2s forwards;
-    z-index: 10;
-}
-
-/* --- CONTROLS --- */
-.controls {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    gap: 8px;
 }
 
 .btn-icon {
@@ -435,16 +391,22 @@ header {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+#slide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+}
 
-/* --- JOB CARDS --- */
 .job-block {
     background-color: var(--card-bg);
     backdrop-filter: blur(var(--backdrop-blur));
     border: 1px solid var(--glass-border);
     border-radius: var(--radius);
     padding: 24px;
-    margin-bottom: 24px;
     box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 
     /* CRITICAL FIX: Specific transitions only. */
     /* If we used 'all', the opacity animation would stutter. */
@@ -722,22 +684,20 @@ a:focus-visible {
 
 /* --- RESPONSIVE --- */
 @media (max-width: 600px) {
-    body {
+    #main-content {
         padding: 20px;
     }
 
-    header {
+    .toolbar-header {
         flex-direction: column;
-        text-align: center;
-        padding: 20px;
+        gap: 16px;
+        padding: 16px;
     }
 
-    .controls {
-        position: relative;
-        top: 0;
-        right: 0;
-        margin-top: 10px;
-        justify-content: center;
+    .toolbar-left, .toolbar-right {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
     }
 
     .job-header,
@@ -766,10 +726,11 @@ a:focus-visible {
 .modal-body iframe { width: 100%; flex-grow: 1; border: none; border-radius: var(--radius-sm); box-shadow: 0 30px 60px rgba(0,0,0,0.5); background: var(--bg-color); }
 
 /* --- SPECIFIC CATALOG OVERRIDES --- */
-.job-layout { display: flex; gap: 24px; align-items: flex-start; }
-.job-figma-left { width: 320px; flex-shrink: 0; }
-.job-details-right { flex-grow: 1; min-width: 0; }
-@media (max-width: 768px) { .job-layout { flex-direction: column; gap: 16px; } .job-figma-left { width: 100%; } }
+.job-layout { display: flex; flex-direction: column; gap: 16px; height: 100%; }
+.job-figma-left { width: 100%; flex-shrink: 0; }
+.job-details-right { flex-grow: 1; min-width: 0; display: flex; flex-direction: column; }
+.job-content { flex-grow: 1; display: flex; flex-direction: column; }
+.tags-wrapper { margin-top: auto; padding-top: 15px; }
 .figma-container { position: relative; width: 100%; padding-bottom: 56.25%; background: var(--hover-bg); border-radius: var(--radius-sm); margin: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); }
 .figma-container::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 100%); opacity: 0; transition: opacity 0.3s ease; z-index: 1; pointer-events: none; }
 .slide-card:hover .figma-container::after { opacity: 1; }
