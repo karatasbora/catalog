@@ -294,7 +294,7 @@ p {
     background-color: var(--glass-bg);
     backdrop-filter: blur(var(--backdrop-blur));
     border-bottom: 1px solid var(--glass-border);
-    padding: 16px max(60px, calc(50vw - 390px)); /* Align with 900px max-width content containing 60px padding */
+    padding: 16px 60px;
     box-shadow: var(--card-shadow);
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
