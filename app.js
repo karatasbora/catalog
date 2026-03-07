@@ -23,23 +23,91 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // UI Elements for Translation
     const uiTitle = document.getElementById('ui-title');
+    const searchInput = document.getElementById('search-input');
+    const tagFilter = document.getElementById('tag-filter');
+    const itemCountBadge = document.getElementById('item-count');
+
+    // Filtering State
+    let currentSearchTerm = '';
+    let currentTagFilter = '';
+
+    // Populate Filters
+    function populateFilters() {
+        const allTags = new Set();
+        archiveData.slides.forEach(slide => {
+            slide.tags.forEach(tag => allTags.add(tag));
+        });
+
+        // Keep the default option, clear the rest
+        while (tagFilter.options.length > 1) {
+            tagFilter.remove(1);
+        }
+
+        Array.from(allTags).sort().forEach(tag => {
+            const option = document.createElement('option');
+            option.value = tag;
+            option.textContent = tag;
+            tagFilter.appendChild(option);
+        });
+    }
 
     function updateUI() {
         // Update Header
         uiTitle.textContent = archiveData.meta.title[state.lang];
+        searchInput.placeholder = archiveData.ui.searchPlaceholder[state.lang];
+        tagFilter.options[0].textContent = archiveData.ui.allCategoriesText[state.lang];
+        
+        // Update Modals Localization
+        if (document.getElementById('contact-title')) {
+            document.getElementById('contact-title').textContent = archiveData.ui.contactTitle[state.lang];
+            document.getElementById('contact-subtitle').textContent = archiveData.ui.contactSubtitle[state.lang];
+        }
+        if (document.getElementById('share-title')) {
+            document.getElementById('share-title').textContent = archiveData.ui.shareTitle[state.lang];
+            document.getElementById('share-subtitle').textContent = archiveData.ui.shareSubtitle[state.lang];
+            document.getElementById('copy-link-btn').textContent = archiveData.ui.copyLinkBtn[state.lang];
+        }
+        if (document.getElementById('close-modal')) {
+            document.getElementById('close-modal').textContent = archiveData.ui.closeBtn[state.lang];
+        }
         
         // Update Language Buttons
         btnTr.classList.toggle('active', state.lang === 'tr');
         btnEn.classList.toggle('active', state.lang === 'en');
         document.documentElement.lang = state.lang;
         
+        populateFilters();
         renderGrid();
     }
 
     function renderGrid() {
         grid.innerHTML = '';
 
-        archiveData.slides.forEach((slide) => {
+        const filteredSlides = archiveData.slides.filter(slide => {
+            // Text Search
+            const searchLower = currentSearchTerm.toLowerCase();
+            const matchesSearch = !currentSearchTerm || 
+                slide.title[state.lang].toLowerCase().includes(searchLower) ||
+                slide.description[state.lang].toLowerCase().includes(searchLower) ||
+                slide.topic[state.lang].toLowerCase().includes(searchLower) ||
+                slide.tags.some(tag => tag.toLowerCase().includes(searchLower));
+
+            // Tag Filter
+            const matchesTag = !currentTagFilter || slide.tags.includes(currentTagFilter);
+
+            return matchesSearch && matchesTag;
+        });
+
+        // Update Item Count Badge
+        const itemCountText = archiveData.ui.itemsCount[state.lang] || 'Items';
+        itemCountBadge.textContent = `${filteredSlides.length} ${itemCountText}`;
+
+        if (filteredSlides.length === 0) {
+            grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--meta-color);">No items found matching your criteria.</div>`;
+            return;
+        }
+
+        filteredSlides.forEach((slide) => {
             // Main Container exactly mirrors .job-block logic
             const jobBlock = document.createElement('div');
             jobBlock.className = 'job-block slide-card';
@@ -250,6 +318,87 @@ document.addEventListener('DOMContentLoaded', () => {
             document.documentElement.setAttribute('data-theme', 'dark');
             localStorage.setItem('theme-preference', 'dark');
         }
+    });
+
+    // Search and Filter Listeners
+    searchInput.addEventListener('input', (e) => {
+        currentSearchTerm = e.target.value;
+        renderGrid();
+    });
+
+    tagFilter.addEventListener('change', (e) => {
+        currentTagFilter = e.target.value;
+        renderGrid();
+    });
+
+    // Modals Logic - Open
+    const contactModal = document.getElementById('contact-modal');
+    const shareModal = document.getElementById('share-modal');
+
+    document.getElementById('btn-contact').addEventListener('click', () => {
+        contactModal.classList.remove('hidden');
+        void contactModal.offsetWidth; // Reflow
+        contactModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+
+    document.getElementById('btn-share').addEventListener('click', () => {
+        // Set the current URL in the input before showing
+        const currentUrl = window.location.href;
+        document.getElementById('share-url-text').textContent = currentUrl;
+        
+        // Dynamically update social share links
+        const encodedUrl = encodeURIComponent(currentUrl);
+        const encodedTitle = encodeURIComponent(document.title);
+        
+        document.getElementById('share-twitter').href = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`;
+        document.getElementById('share-linkedin').href = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+        document.getElementById('share-whatsapp').href = `https://api.whatsapp.com/send?text=${encodedTitle}%20${encodedUrl}`;
+        
+        shareModal.classList.remove('hidden');
+        void shareModal.offsetWidth; // Reflow
+        shareModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+
+    // Modals Logic - Close
+    function closeContentModal(modal) {
+        modal.classList.remove('active');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }, 400); // match transition
+    }
+
+    document.getElementById('close-contact').addEventListener('click', () => closeContentModal(contactModal));
+    document.getElementById('close-share').addEventListener('click', () => closeContentModal(shareModal));
+
+    // Close on backdrop click (for all modals including Figma)
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                if (modal.id === 'figma-modal') {
+                    document.getElementById('close-modal').click();
+                } else {
+                    closeContentModal(modal);
+                }
+            }
+        });
+    });
+
+    // Share Button Logic (Inside Modal)
+    document.getElementById('copy-link-btn').addEventListener('click', (e) => {
+        const btn = e.target;
+        navigator.clipboard.writeText(window.location.href).then(() => {
+            const originalText = btn.textContent;
+            btn.textContent = 'Copied!';
+            setTimeout(() => {
+                btn.textContent = originalText;
+            }, 2000);
+        }).catch(err => {
+            console.error('Failed to copy link: ', err);
+            btn.textContent = 'Failed';
+        });
     });
 
     // Initialize

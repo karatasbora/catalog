@@ -9,7 +9,17 @@ const archiveData = {
     },
     ui: {
         loadBtn: { tr: "Etkileşimli Sunumu Yükle", en: "Load Interactive Slides" },
-        topicLabel: { tr: "Konu:", en: "Topic:" }
+        topicLabel: { tr: "Konu:", en: "Topic:" },
+        searchPlaceholder: { tr: "Katalogda ara...", en: "Search catalog..." },
+        allCategoriesText: { tr: "Tüm Kategoriler", en: "All Categories" },
+        itemsCount: { tr: "Öğe", en: "Items" },
+        shareToast: { tr: "Bağlantı kopyalandı!", en: "Link copied!" },
+        contactTitle: { tr: "İletişime Geç", en: "Let's Connect" },
+        contactSubtitle: { tr: "Bana bu platformlardan ulaşabilir veya e-posta gönderebilirsiniz.", en: "Find me on these platforms or drop me an email." },
+        shareTitle: { tr: "Kataloğu Paylaş", en: "Share Catalog" },
+        shareSubtitle: { tr: "Bu kataloğu doğrudan bir bağlantı aracılığıyla başkalarıyla paylaşın.", en: "Share this catalog with others via a direct link." },
+        copyLinkBtn: { tr: "Bağlantıyı Kopyala", en: "Copy Link" },
+        closeBtn: { tr: "✖ Kapat", en: "✖ Close" }
     },
     slides: [
         {
