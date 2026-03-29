@@ -34,7 +34,7 @@ const archiveData = {
             pdfUrl: "ws/ws-elt-101.pdf",
             tags: ["Grammar", "5th Grade", "A1"]
         },
-                {
+        {
             id: "slide-elt-102",
             title: { tr: "Hastalıklar", en: "Illnesses" },
             topic: { tr: "Tavsiyede Bulunmak", en: "Giving Advice" },
@@ -45,6 +45,6 @@ const archiveData = {
             figmaUrl: "https://www.figma.com/design/fQlLfhOuPkYU8KNB1fu2ww/Illnesses-%7C-Speaking---Giving-Advice?node-id=0-1",
             pdfUrl: "",
             tags: ["Speaking", "5th Grade", "A1"]
-        },
+        }
     ]
 };
