@@ -48,13 +48,13 @@ const archiveData = {
         },
         {
             id: "slide-elt-103",
-            title: { tr: "At the National Park", en: "Ulusal Parkta" },
+            title: { tr: "Ulusal Parkta", en: "At the National Park" },
             topic: { tr: "Kurallar", en: "Rules" },
             description: {
                 tr: "Bu ders materyali, PDP (Pre-, During-, Post-) metodolojisini modern kullanıcı deneyimi tasarımıyla birleştiren bütüncül bir dijital öğrenme modülüdür.",
                 en: "This course material is a holistic digital learning module that combines the PDP (Pre-, During-, Post-) methodology with modern user experience design."
             },
-            figmaUrl: "https://embed.figma.com/design/XY3tuIZnBUECcTN64MgJe7/Reading---Nature?node-id=0-1&embed-host=share",
+            figmaUrl: "https://www.figma.com/proto/XY3tuIZnBUECcTN64MgJe7/Reading---Nature?node-id=0-1",
             pdfUrl: "",
             tags: ["Reading", "5th Grade", "A1"]
         }
